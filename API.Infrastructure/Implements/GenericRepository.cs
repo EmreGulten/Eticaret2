@@ -4,10 +4,8 @@ using API.Core.Specifications;
 using API.Infrastructure.Data;
 using API.Infrastructure.DataContext;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace API.Infrastructure.Implements
@@ -44,6 +42,11 @@ namespace API.Infrastructure.Implements
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
+        }
+
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
         }
     }
 }
